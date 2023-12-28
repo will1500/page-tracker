@@ -11,7 +11,7 @@ ENV VIRTUALENV=/home/realpython/venve
 RUN python3 -m venv $VIRTUALENV
 ENV PATH="$VIRTUALENV/bin:$PATH"
 
-COPY --from=builder /home/realpython/dist/page_tracker*.whl /home/realpython
+COPY --from=builder /Users/will/page-tracker/dist/page_tracker*.whl /home/realpython
 
 
 COPY --chown=realpython pyproject.toml constraints.txt ./
@@ -27,7 +27,8 @@ RUN python -m pip install . -c constraints.txt && \
     python -m isort src/ --check && \
     python -m black src/ --check --quiet && \
     python -m pylint src/ --disable=C0114,C0116,R1705 && \
-    python -m bandit -r src/ --quiet
+    python -m bandit -r src/ --quiet \
+    python -m pip wheel --wheel-dir dist/ . -c constraints.txt
 
 CMD ["flask", "--app", "page_tracker.app", "run", \
      "--host", "0.0.0.0", "--port", "5000"]
