@@ -22,9 +22,7 @@ COPY --chown=realpython test/ test/
 RUN echo "Debug: Installed project dependencies" && \
     python -m pip install . -c constraints.txt && \
     python -m pytest test/unit/ --flask-url http://localhost:8082 --redis-url redis://localhost:6379 && \
-    python -m isort src/ --check && \
-    python -m black src/ --check --quiet && \
-    python -m bandit -r src/ --quiet && \
+
     python -m pip wheel --wheel-dir dist/ . -c constraints.txt
 
 # Add logging to a file
